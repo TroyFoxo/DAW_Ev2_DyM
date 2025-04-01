@@ -42,4 +42,18 @@ class OrderController extends Controller
         $order->update(['is_deleted' => true]);
         return redirect()->route('orders.index');
     }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function search(Request $request)
+    {
+        $invoiceNumber = $request->input('invoice_number');
+        $order = Order::where('invoice_number', $invoiceNumber)->first();
+
+        return view('home', compact('order'));
+    }
+
 }

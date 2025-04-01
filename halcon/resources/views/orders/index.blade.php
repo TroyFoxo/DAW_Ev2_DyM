@@ -2,21 +2,26 @@
 
 @section('content')
 <div class="container">
-    <h2>Lista de Usuarios</h2>
+    <h2>Lista de Órdenes</h2>
     <table border="1">
         <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Rol</th>
+            <th>Factura</th>
+            <th>Cliente</th>
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
-        @foreach($users as $user)
+        @foreach($orders as $order)
         <tr>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->role->name }}</td>
+            <td>{{ $order->invoice_number }}</td>
+            <td>{{ $order->customer_name }}</td>
+            <td>{{ $order->status }}</td>
             <td>
-                <a href="{{ route('users.edit', $user->id) }}">Editar</a>
+                <a href="{{ route('orders.edit', $order->id) }}">Editar</a> |
+                <form action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Archivar</button>
+                </form>
             </td>
         </tr>
         @endforeach
